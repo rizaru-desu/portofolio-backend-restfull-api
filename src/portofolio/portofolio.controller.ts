@@ -15,6 +15,7 @@ import {
   SavePortfolioDto,
   UpdatePortfolioStatusDto,
 } from './portofolio.dto';
+import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
 
 @Controller('portofolio')
 export class PortofolioController {
@@ -25,6 +26,7 @@ export class PortofolioController {
     return await this.portofolioService.save(dto);
   }
 
+  @AllowAnonymous()
   @Get()
   async getPublicAll() {
     return await this.portofolioService.PublicAll();
