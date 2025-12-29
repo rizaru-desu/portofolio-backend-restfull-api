@@ -90,7 +90,15 @@ jobs:
 
     # 7. Install Prod Deps & Restart PM2 di Server
     - name: Restart Application
+      env:
+        SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        SERVER_PORT: ${{ secrets.SERVER_PORT }}
+        SERVER_USER: ${{ secrets.SERVER_USER }}
       run: |
+        : "${SERVER_HOST:?SERVER_HOST EMPTY}"
+        : "${SERVER_PORT:?SERVER_PORT EMPTY}"
+        : "${SERVER_USER:?SERVER_USER EMPTY}"
+
         ssh -o StrictHostKeyChecking=no \
         -o ProxyCommand="cloudflared access ssh --hostname $SERVER_HOST" \
         -p "$SERVER_PORT" \
@@ -99,6 +107,6 @@ jobs:
             cd /opt/www/be-portfolio &&
             pnpm install --prod &&
             pm2 startOrReload ecosystem.config.js --env production &&
-           pm2 save
+            pm2 save
         "
         '
