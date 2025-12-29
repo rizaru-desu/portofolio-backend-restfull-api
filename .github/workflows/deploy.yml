@@ -1,0 +1,80 @@
+name: Build & Deploy Portfolio
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy via Cloudflared
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. Checkout Code
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Setup Node.js & PNPM
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v2
+      with:
+        version: 10 # Sesuaikan versi pnpm Anda
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22' # Sesuaikan versi node Anda
+        cache: 'pnpm'
+
+    # 3. Install & Build di GitHub Runner (Bukan di Server)
+    - name: Install Dependencies & Build
+      run: |
+        pnpm install
+        pnpm build
+        # Hasil build biasanya ada di folder /dist
+
+    # 4. Install Cloudflared di GitHub Runner
+    # Ini wajib agar runner bisa "ngobrol" sama server Anda lewat tunnel
+    - name: Install Cloudflared
+      run: |
+        curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+        sudo dpkg -i cloudflared.deb
+
+    # 5. Konfigurasi SSH Config
+    # Kita buat config agar command ssh/rsync otomatis pakai ProxyCommand
+    - name: Setup SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Create .env file
+      run: |
+        echo "${{ secrets.ENV_FILE }}" > .env
+
+    # 6. Copy File ke Server (Hanya file yang dibutuhkan)
+    # Menggunakan rsync agar lebih cepat & hemat bandwidth
+    - name: Copy Files to Server
+      run: |
+        # Buat folder dulu
+        ssh -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname ${{ secrets.SERVER_HOST }}" -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "mkdir -p /opt/www/be-portfolio"
+        
+        # Rsync dengan ProxyCommand inline
+        rsync -avz --delete \
+          -e "ssh -p ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o ProxyCommand='cloudflared access ssh --hostname %h'" \
+          ./dist \
+          ./package.json \
+          ./pnpm-lock.yaml \
+          ./.env \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/opt/www/be-portfolio/
+
+    # 7. Install Prod Deps & Restart PM2 di Server
+    - name: Restart Application
+      run: |
+        ssh -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname ${{ secrets.SERVER_HOST }}" -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "cd /opt/www/be-portfolio && \
+        pnpm install --prod && \
+        
+        # Command sakti PM2 Ecosystem:
+        pm2 startOrReload ecosystem.config.js --env production && \
+        
+        pm2 save"
