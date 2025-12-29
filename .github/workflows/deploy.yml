@@ -8,7 +8,7 @@ jobs:
   build-and-deploy:
     name: Build & Deploy via Cloudflared
     runs-on: ubuntu-latest
-    
+    environment: production 
     steps:
     # 1. Checkout Code
     - name: Checkout Code
