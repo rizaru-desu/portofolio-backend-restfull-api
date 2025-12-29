@@ -103,4 +103,14 @@ jobs:
         -o ProxyCommand="cloudflared access ssh --hostname $SERVER_HOST" \
         -p "$SERVER_PORT" \
         "$SERVER_USER@$SERVER_HOST" \
-        "cd /opt/www/be-portfolio && pnpm install --prod && pm2 startOrReload ecosystem.config.js --env production && pm2 save"
+        '
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+        nvm use 24
+
+        cd /opt/www/be-portfolio &&
+        pnpm install --prod &&
+        pm2 startOrReload ecosystem.config.js --env production &&
+        pm2 save
+        '
