@@ -91,10 +91,14 @@ jobs:
     # 7. Install Prod Deps & Restart PM2 di Server
     - name: Restart Application
       run: |
-        ssh -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname ${{ secrets.SERVER_HOST }}" -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "cd /opt/www/be-portfolio && \
-        pnpm install --prod && \
-        
-        # Command sakti PM2 Ecosystem:
-        pm2 startOrReload ecosystem.config.js --env production && \
-        
-        pm2 save"
+        ssh -o StrictHostKeyChecking=no \
+        -o ProxyCommand="cloudflared access ssh --hostname $SERVER_HOST" \
+        -p "$SERVER_PORT" \
+        "$SERVER_USER@$SERVER_HOST" '
+          bash -lc "
+            cd /opt/www/be-portfolio &&
+            pnpm install --prod &&
+            pm2 startOrReload ecosystem.config.js --env production &&
+           pm2 save
+        "
+      '
