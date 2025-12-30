@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>404 Error - Matrix Theme</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f20d0d",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#0a0a0a", // Modified to be closer to 'near black' for the matrix theme
+                        "matrix-dark": "#050505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'neon': '0 0 5px theme("colors.primary"), 0 0 20px theme("colors.primary")',
+                        'neon-hover': '0 0 10px theme("colors.primary"), 0 0 40px theme("colors.primary")',
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .text-glow {
+                text-shadow: 0 0 10px rgba(242, 13, 13, 0.7);
+            }
+            .text-glow-sm {
+                text-shadow: 0 0 5px rgba(242, 13, 13, 0.5);
+            }
+            .border-glow {
+                box-shadow: 0 0 10px rgba(242, 13, 13, 0.2), inset 0 0 10px rgba(242, 13, 13, 0.1);
+            }
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-white min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white">
+<!-- Background Image simulating Matrix Rain -->
+<div class="fixed inset-0 z-0 pointer-events-none opacity-20 bg-cover bg-center" data-alt="Abstract falling red digital matrix code rain on black background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBfgYozbAlODTGD4CLqPMR5t5MU61VFjtqiBzalS6u9M4FOroeu1-rJi6dFGenoswrUdE_fvmGm50dWNvPLNP5IqONEwXNkHfQQmiGrIE1M2--L7xDqQKfS4J7l0V-8ObOC1Tpqy0x_quSaU4tvSFcZqkO5-5IVt8gH922zx6nJlyooT5Hn0I718huEz7HUi0fwp0W6iKAzNohJSv8JaI97eXBLRJJzXvwhW5DPuxbWHLuzeG1jd9FEwerqxQcx4x5Y7EsZDeDHGEo');">
+</div>
+<!-- Scanline Overlay Effect -->
+<div class="fixed inset-0 z-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]"></div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<!-- Top Navigation -->
+<header class="w-full border-b border-primary/20 bg-background-dark/80 backdrop-blur-md px-6 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+<h2 class="text-xl font-bold tracking-widest uppercase text-glow-sm">Rizaru-Desu sys.</h2>
+</div>
+
+<button class="hidden md:flex items-center gap-2 px-4 py-2 rounded border border-primary/50 text-primary hover:bg-primary hover:text-white transition-all duration-300 text-sm font-bold uppercase tracking-wider hover:shadow-neon">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Admin Login</span>
+</button>
+</div>
+</header>
+<!-- Main Content / Hero -->
+<main class="flex-grow flex items-center justify-center p-6 relative">
+<div class="w-full max-w-3xl flex flex-col items-center text-center gap-8">
+<!-- Glitchy 404 Header -->
+<div class="relative">
+<h1 class="text-[120px] md:text-[180px] font-black leading-none tracking-tighter text-primary text-glow select-none">
+                        404
+                    </h1>
+<div class="absolute inset-0 text-[120px] md:text-[180px] font-black leading-none tracking-tighter text-white opacity-20 blur-[2px] translate-x-1">
+                        404
+                    </div>
+</div>
+<!-- Subtitle Container -->
+<div class="flex flex-col gap-4 max-w-xl mx-auto backdrop-blur-sm bg-black/40 p-8 rounded-xl border border-primary/30 border-glow">
+<div class="flex items-center justify-center gap-2 text-primary/80 mb-2">
+<span class="material-symbols-outlined text-sm animate-pulse">error</span>
+<span class="text-xs font-mono tracking-[0.2em] uppercase">System Failure</span>
+<span class="material-symbols-outlined text-sm animate-pulse">error</span>
+</div>
+<h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                        Page Not Found
+                    </h2>
+<p class="text-gray-400 text-sm md:text-base leading-relaxed font-mono">
+                        You’ve entered a restricted or non-existent area. <br class="hidden md:block"/>
+                        The requested sector has been purged or moved. <span class="text-primary">Connection terminated.</span>
+</p>
+<!-- Action Buttons -->
+<div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+<button class="group w-full sm:w-auto relative flex items-center justify-center gap-3 px-8 py-3 bg-primary text-white text-sm font-bold uppercase tracking-widest rounded transition-all duration-300 hover:shadow-neon hover:bg-[#ff1f1f]">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<span>Return to Main Website</span>
+</button>
+<button class="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-3 bg-transparent border border-white/20 text-white text-sm font-bold uppercase tracking-widest rounded hover:bg-white/5 hover:border-white/40 transition-all">
+<span class="material-symbols-outlined">bug_report</span>
+<span>Report Glitch</span>
+</button>
+</div>
+</div>
+<!-- Decorative Code Elements -->
+<div class="hidden md:flex justify-between w-full max-w-2xl text-[10px] text-primary/20 font-mono mt-8 select-none">
+<span>ERR_CODE: 0x404_NF</span>
+<span>MEM_DUMP: FAILURE</span>
+<span>TRACE: NULL</span>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-primary/20 bg-background-dark/80 backdrop-blur-md px-6 py-6 mt-auto">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+<p class="text-primary/60 text-xs font-mono">© 2026 Rizaru-desu System. Protocol v9.2.1</p>
+<div class="flex gap-6">
+<a class="text-primary/60 hover:text-primary hover:text-glow-sm transition-colors text-xs font-mono uppercase" href="#">Privacy Protocol</a>
+<a class="text-primary/60 hover:text-primary hover:text-glow-sm transition-colors text-xs font-mono uppercase" href="#">System Status</a>
+<a class="text-primary/60 hover:text-primary hover:text-glow-sm transition-colors text-xs font-mono uppercase" href="#">Override</a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

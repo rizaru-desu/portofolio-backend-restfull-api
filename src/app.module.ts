@@ -39,7 +39,13 @@ import { TestimoniController } from './testimoni/testimoni.controller';
     UsersModule,
     ScheduleModule.forRoot(),
   ],
-  controllers: [HeartbeatController, BlogsController, CarrierController, PortofolioController, TestimoniController],
+  controllers: [
+    HeartbeatController,
+    BlogsController,
+    CarrierController,
+    PortofolioController,
+    TestimoniController,
+  ],
   providers: [
     {
       provide: APP_FILTER,
