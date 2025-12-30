@@ -96,7 +96,6 @@ jobs:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
-          CI: true
         run: |
           : "${SERVER_HOST:?SERVER_HOST EMPTY}"
           : "${SERVER_PORT:?SERVER_PORT EMPTY}"
@@ -111,6 +110,7 @@ jobs:
           [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"
           nvm use 24
 
+          export CI=true
           export PNPM_HOME=\"\$HOME/.local/share/pnpm\"
           export PATH=\"\$PNPM_HOME:\$PATH\"
 
