@@ -87,7 +87,7 @@ jobs:
           ./pnpm-lock.yaml \
           ./.env \
           ./ecosystem.config.js \
-          ./ client \
+          ./client \
           "$SERVER_USER@$SERVER_HOST:/opt/www/be-portfolio/"
 
       # 7. Install Prod Deps & Restart PM2 di Server
