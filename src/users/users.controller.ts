@@ -7,6 +7,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import type { Response } from 'express';
 import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
@@ -35,6 +36,10 @@ export class UsersController {
     const res = await this.auth.api.getSession({
       headers: req.headers,
     });
+
+    if (!res?.user) {
+      throw new UnauthorizedException('Session expired or not authenticated');
+    }
 
     return { user: { ...res?.user } };
   }
