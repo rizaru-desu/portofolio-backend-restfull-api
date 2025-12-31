@@ -24,9 +24,9 @@ export class RegisterDto {
 
 export class LoginDto {
   @IsString()
-  @IsNotEmpty({ message: 'Email or username is required' })
+  @IsNotEmpty({ message: 'identifier is required' })
   @Matches(/^([^\s@]+@[^\s@]+\.[^\s@]+|[a-zA-Z0-9_.-]{3,30})$/, {
-    message: 'Invalid email or username',
+    message: 'Invalid identifier',
   })
   identifier: string;
 

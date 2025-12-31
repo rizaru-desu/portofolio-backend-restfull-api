@@ -30,29 +30,32 @@ export class UsersController {
   ) {}
 
   @AllowAnonymous()
+  @Post('get-session')
+  async getSession(@Req() req: Request) {
+    const res = await this.auth.api.getSession({
+      headers: req.headers,
+    });
+
+    return { user: { ...res?.user } };
+  }
+
+  @AllowAnonymous()
   @Post('register')
   async register(@Body() body: RegisterDto) {
-    try {
-      const res = await this.auth.api.signUpEmail({
-        body: {
-          name: body.name,
-          email: body.email,
-          password: body.password,
-          image: undefined,
-          callbackURL: undefined,
-          rememberMe: undefined,
-          username: body.email?.split('@')?.[0],
-        },
-        asResponse: true,
-      });
+    const res = await this.auth.api.signUpEmail({
+      body: {
+        name: body.name,
+        email: body.email,
+        password: body.password,
+        image: undefined,
+        callbackURL: undefined,
+        rememberMe: undefined,
+        username: body.email?.split('@')?.[0],
+      },
+      asResponse: true,
+    });
 
-      return (await res.json()) as unknown;
-    } catch (error) {
-      if (error instanceof APIError) {
-        throw new HttpException(error.message, error.statusCode);
-      }
-      throw new HttpException('Internal Server Error', 500);
-    }
+    return (await res.json()) as unknown;
   }
 
   @AllowAnonymous()
@@ -72,7 +75,7 @@ export class UsersController {
     const authConfig = {
       password: password,
       rememberMe: rememberMe,
-      callbackURL: 'http://localhost:5432/dashboard/',
+      callbackURL: 'http://admin-po.rizaru-desu.my.id:5555/dashboard/',
     };
 
     if (isEmail) {
